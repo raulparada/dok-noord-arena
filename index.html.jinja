@@ -1,0 +1,64 @@
+<head>
+    <script src="https://unpkg.com/@tailwindcss/browser@4.0.14/dist/index.global.js"></script>
+    <script src="https://unpkg.com/htmx.org@2.0.4"
+        integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
+        crossorigin="anonymous"></script>
+    <meta name="htmx-config" content='{"selfRequestsOnly":false}'>
+    {#
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script> #}
+</head>
+
+<body class="grid grid-cols-1 content-center justify-center justify-items-center items-center">
+    {# Teams #}
+    <table>
+        <thead>
+            <tr>
+                <th>Matches</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for match in MATCHES %}
+            <tr>
+                <td>{{ match.date }} ⚫️ {{ match.team_1_ }} vs ⚪️ {{ match.team_2_ }} </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <form>
+        <p class="text-lg font-bold">Matchmaking</p>
+        <textarea class="resize-none h-75 w-50" name="matchmaking" hx-post="{{ SERVER_URL }}/debug">
+            {# 
+            Tuesday 18/03 @20:00
+             1.⁠ ⁠Baris
+             2.⁠ ⁠Adam
+             3.⁠ ⁠Wouter
+             4.⁠ ⁠Sizwe 
+             5.⁠ ⁠Giovanni  
+             6.⁠ ⁠Raphael
+             7.⁠ ⁠Bram
+             8.⁠ ⁠Finnian 
+             9.⁠ ⁠Shawn
+            10.⁠ ⁠Tchi 
+            #}
+        </textarea>
+    </form>
+    <br>
+
+    {# Players #}
+    <table>
+        <thead>
+            <tr>
+                <th>Players</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for player in PLAYERS.values() %}
+            <tr>
+                <td>{{ player.alias }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
