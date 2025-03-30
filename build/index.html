@@ -5,88 +5,340 @@
         crossorigin="anonymous"></script>
     <meta name="htmx-config" content='{"selfRequestsOnly":false}'>
     
+    <script>
+        console.log("players", "{'pablo': Player(id='pablo', alias='Pablo OG'), 'wouter': Player(id='wouter', alias='Wouter'), 'adi': Player(id='adi', alias='Adi'), 'sizwe': Player(id='sizwe', alias='Sizwe'), 'sandero': Player(id='sandero', alias='Sander'), 'bram': Player(id='bram', alias='Bram'), 'adam': Player(id='adam', alias='Adam'), 'alex': Player(id='alex', alias='Alex'), 'johan': Player(id='johan', alias='Johan'), 'finnian': Player(id='finnian', alias='Finnian'), 'dobro': Player(id='dobro', alias='Dobromil'), 'maarten': Player(id='maarten', alias='Maarten'), 'luca': Player(id='luca', alias='Luca'), 'renaud': Player(id='renaud', alias='Renaud'), 'gio': Player(id='gio', alias='Giovanni'), 'lars': Player(id='lars', alias='Lars'), 'sander': Player(id='sander', alias='Sandero'), 'victor': Player(id='victor', alias='Victor'), 'baris': Player(id='baris', alias='Baris'), 'karim': Player(id='karim', alias='Karim'), 'nima': Player(id='nima', alias='Nima'), 'raphael': Player(id='raphael', alias='Raphael'), 'dmitro': Player(id='dmitro', alias='Dmitro'), 'miro': Player(id='miro', alias='Miro'), 'tchi': Player(id='tchi', alias='Tchi')}")
+        let players = "{'pablo': Player(id='pablo', alias='Pablo OG'), 'wouter': Player(id='wouter', alias='Wouter'), 'adi': Player(id='adi', alias='Adi'), 'sizwe': Player(id='sizwe', alias='Sizwe'), 'sandero': Player(id='sandero', alias='Sander'), 'bram': Player(id='bram', alias='Bram'), 'adam': Player(id='adam', alias='Adam'), 'alex': Player(id='alex', alias='Alex'), 'johan': Player(id='johan', alias='Johan'), 'finnian': Player(id='finnian', alias='Finnian'), 'dobro': Player(id='dobro', alias='Dobromil'), 'maarten': Player(id='maarten', alias='Maarten'), 'luca': Player(id='luca', alias='Luca'), 'renaud': Player(id='renaud', alias='Renaud'), 'gio': Player(id='gio', alias='Giovanni'), 'lars': Player(id='lars', alias='Lars'), 'sander': Player(id='sander', alias='Sandero'), 'victor': Player(id='victor', alias='Victor'), 'baris': Player(id='baris', alias='Baris'), 'karim': Player(id='karim', alias='Karim'), 'nima': Player(id='nima', alias='Nima'), 'raphael': Player(id='raphael', alias='Raphael'), 'dmitro': Player(id='dmitro', alias='Dmitro'), 'miro': Player(id='miro', alias='Miro'), 'tchi': Player(id='tchi', alias='Tchi')}"
+    </script>
 </head>
 
-<body class="">
-    
-    <table>
-        <thead>
-            <tr>
-                <th>Matches</th>
-            </tr>
-        </thead>
+<body
+    class="
+    grid grid-cols-1
+    content-center
+    justify-center
+    justify-items-center
+    items-center
+    bg-stone-100
+    font-system-ui">
+    <table class="table-auto w-3/4">
+        <p class="text-xl font-bold">
+            Matches
+        </p>
         <tbody>
             
             <tr>
-                <td>2025-03-02 20:00:00 ⚫️ Pablo OG | Dobromil | Wouter | Bram | Sander vs ⚪️ Pablo OG | Dobromil | Wouter | Bram | Sander </td>
+                <td class="px-1 font-bold text-gray-400">2025-03-25 20:00:00</td>
+                <td class="px-1 text-right font-bold">Adam • Alex • Dobromil • Pablo OG • Wouter</td>
+                <td class="px-3 text-center w-25 text-gray-500">⚫️ vs ⚪️</td>
+                <td class="px-1 text-left ">Bram • Finnian • Giovanni • Johan • Tchi</td>
+                
+                <td class="px-1 font-medium text-blue-600 dark:text-blue-500 hover:underline"> <a
+                        href="https://app.myplay.com/app/game/67e332b42eab8abd1cb449c6/highlights">highlights</a></td>
+                </td>
+                
             </tr>
             
             <tr>
-                <td>2025-03-04 20:00:00 ⚫️  vs ⚪️  </td>
+                <td class="px-1 font-bold text-gray-400">2025-03-25 20:00:00</td>
+                <td class="px-1 text-right ">Dmitro • Miro • Nima • Raphael • Sizwe</td>
+                <td class="px-3 text-center w-25 text-gray-500">⚫️ vs ⚪️</td>
+                <td class="px-1 text-left font-bold">Adi • Baris • Karim • Renaud • Sandero</td>
+                
+                <td class="px-1 font-medium text-blue-600 dark:text-blue-500 hover:underline"> <a
+                        href="https://app.myplay.com/app/game/67e33ee0665c5bb7349201fd/highlights">highlights</a></td>
+                </td>
+                
+            </tr>
+            
+            <tr>
+                <td class="px-1 font-bold text-gray-400">2025-03-25 20:30:00</td>
+                <td class="px-1 text-right font-bold">Adam • Alex • Dobromil • Pablo OG • Wouter</td>
+                <td class="px-3 text-center w-25 text-gray-500">⚫️ vs ⚪️</td>
+                <td class="px-1 text-left ">Adi • Baris • Karim • Renaud • Sandero</td>
+                
+                <td class="px-1 font-medium text-blue-600 dark:text-blue-500 hover:underline"> <a
+                        href="https://app.myplay.com/app/game/67e332b42eab8abd1cb449c6/highlights">highlights</a></td>
+                </td>
+                
+            </tr>
+            
+            <tr>
+                <td class="px-1 font-bold text-gray-400">2025-03-25 20:30:00</td>
+                <td class="px-1 text-right font-bold">Dmitro • Miro • Nima • Raphael • Sizwe</td>
+                <td class="px-3 text-center w-25 text-gray-500">⚫️ vs ⚪️</td>
+                <td class="px-1 text-left ">Bram • Finnian • Giovanni • Johan • Tchi</td>
+                
+                <td class="px-1 font-medium text-blue-600 dark:text-blue-500 hover:underline"> <a
+                        href="https://app.myplay.com/app/game/67e33ee0665c5bb7349201fd/highlights">highlights</a></td>
+                </td>
+                
             </tr>
             
         </tbody>
     </table>
-    <form>
-        <h1 class="text-lg font-bold">Matchmaking</h2>
-            <textarea class="resize-none h-75 w-50" name="matchmaking" hx-post="http://localhost:7654/debug">
-            
-        </textarea>
-    </form>
+    <details
+        class="grid grid-cols-1 content-center justify-center justify-items-center items-center group cursor-pointer">
+        <summary class="text-blue-500 group-open:text-black">Start new...</summary>
+        <form>
+            <textarea
+                placeholder="Tuesday DD/MM @20:00
+1.⁠ Player 1
+2.⁠ Player 2⁠
+3.⁠ Player 3
+4.⁠ Player 4⁠
+5.⁠ Player 5⁠
+6.⁠ Player 6⁠
+7.⁠ Player 7⁠
+8.⁠ Player 8⁠
+9.⁠ Player 9⁠
+10.⁠ Player 10"
+                class="relative resize-none h-70 w-60 border-2 border-blue-500"
+                name="matchmaking"
+                hx-post="http://localhost:7654/debug"></textarea>
+        </form>
+    </details>
     <br>
 
-    yolo
     
     <table>
+        <p class="text-xl font-bold">
+            Players
+        </p>
         <thead>
             <tr>
-                <th>Players</th>
+                <th scope="col"></th> <!-- name -->
+                <th scope="col">⛹️‍♂️</th>
+                <th>🏅</th>
+                <th>🐸</th>
+                <th>🏆</th>
             </tr>
         </thead>
-
         <tbody>
             
             <tr>
-                <td>Pablo OG</td>
+                <th class="text-right px-2 font-semibold">
+                    Wouter</th>
+                <td class="px-1">2</td>
+                <td class="px-1">2</td>
+                <td class="px-1">2</td>
+                <td class="px-1">0</td>
             </tr>
             
             <tr>
-                <td>Wouter</td>
+                <th class="text-right px-2 font-semibold">
+                    Pablo OG</th>
+                <td class="px-1">2</td>
+                <td class="px-1">2</td>
+                <td class="px-1">2</td>
+                <td class="px-1">0</td>
             </tr>
             
             <tr>
-                <td>Sizwe</td>
+                <th class="text-right px-2 font-semibold">
+                    Dobromil</th>
+                <td class="px-1">2</td>
+                <td class="px-1">2</td>
+                <td class="px-1">2</td>
+                <td class="px-1">0</td>
             </tr>
             
             <tr>
-                <td>Sander</td>
+                <th class="text-right px-2 font-semibold">
+                    Alex</th>
+                <td class="px-1">2</td>
+                <td class="px-1">2</td>
+                <td class="px-1">2</td>
+                <td class="px-1">0</td>
             </tr>
             
             <tr>
-                <td>Bram</td>
+                <th class="text-right px-2 font-semibold">
+                    Adam</th>
+                <td class="px-1">2</td>
+                <td class="px-1">2</td>
+                <td class="px-1">2</td>
+                <td class="px-1">0</td>
             </tr>
             
             <tr>
-                <td>Dobromil</td>
+                <th class="text-right px-2 font-semibold">
+                    Sizwe</th>
+                <td class="px-1">2</td>
+                <td class="px-1">1</td>
+                <td class="px-1">3</td>
+                <td class="px-1">0</td>
             </tr>
             
             <tr>
-                <td>Maarten</td>
+                <th class="text-right px-2 font-semibold">
+                    Sandero</th>
+                <td class="px-1">2</td>
+                <td class="px-1">1</td>
+                <td class="px-1">3</td>
+                <td class="px-1">0</td>
             </tr>
             
             <tr>
-                <td>Luca</td>
+                <th class="text-right px-2 font-semibold">
+                    Renaud</th>
+                <td class="px-1">2</td>
+                <td class="px-1">1</td>
+                <td class="px-1">3</td>
+                <td class="px-1">0</td>
             </tr>
             
             <tr>
-                <td>Renaud</td>
+                <th class="text-right px-2 font-semibold">
+                    Raphael</th>
+                <td class="px-1">2</td>
+                <td class="px-1">1</td>
+                <td class="px-1">3</td>
+                <td class="px-1">0</td>
             </tr>
             
             <tr>
-                <td>Giovanni</td>
+                <th class="text-right px-2 font-semibold">
+                    Nima</th>
+                <td class="px-1">2</td>
+                <td class="px-1">1</td>
+                <td class="px-1">3</td>
+                <td class="px-1">0</td>
+            </tr>
+            
+            <tr>
+                <th class="text-right px-2 font-semibold">
+                    Miro</th>
+                <td class="px-1">2</td>
+                <td class="px-1">1</td>
+                <td class="px-1">3</td>
+                <td class="px-1">0</td>
+            </tr>
+            
+            <tr>
+                <th class="text-right px-2 font-semibold">
+                    Karim</th>
+                <td class="px-1">2</td>
+                <td class="px-1">1</td>
+                <td class="px-1">3</td>
+                <td class="px-1">0</td>
+            </tr>
+            
+            <tr>
+                <th class="text-right px-2 font-semibold">
+                    Dmitro</th>
+                <td class="px-1">2</td>
+                <td class="px-1">1</td>
+                <td class="px-1">3</td>
+                <td class="px-1">0</td>
+            </tr>
+            
+            <tr>
+                <th class="text-right px-2 font-semibold">
+                    Baris</th>
+                <td class="px-1">2</td>
+                <td class="px-1">1</td>
+                <td class="px-1">3</td>
+                <td class="px-1">0</td>
+            </tr>
+            
+            <tr>
+                <th class="text-right px-2 font-semibold">
+                    Adi</th>
+                <td class="px-1">2</td>
+                <td class="px-1">1</td>
+                <td class="px-1">3</td>
+                <td class="px-1">0</td>
+            </tr>
+            
+            <tr>
+                <th class="text-right px-2 font-semibold">
+                    Victor</th>
+                <td class="px-1">0</td>
+                <td class="px-1">0</td>
+                <td class="px-1">4</td>
+                <td class="px-1">0</td>
+            </tr>
+            
+            <tr>
+                <th class="text-right px-2 font-semibold">
+                    Tchi</th>
+                <td class="px-1">2</td>
+                <td class="px-1">0</td>
+                <td class="px-1">4</td>
+                <td class="px-1">0</td>
+            </tr>
+            
+            <tr>
+                <th class="text-right px-2 font-semibold">
+                    Sander</th>
+                <td class="px-1">0</td>
+                <td class="px-1">0</td>
+                <td class="px-1">4</td>
+                <td class="px-1">0</td>
+            </tr>
+            
+            <tr>
+                <th class="text-right px-2 font-semibold">
+                    Maarten</th>
+                <td class="px-1">0</td>
+                <td class="px-1">0</td>
+                <td class="px-1">4</td>
+                <td class="px-1">0</td>
+            </tr>
+            
+            <tr>
+                <th class="text-right px-2 font-semibold">
+                    Luca</th>
+                <td class="px-1">0</td>
+                <td class="px-1">0</td>
+                <td class="px-1">4</td>
+                <td class="px-1">0</td>
+            </tr>
+            
+            <tr>
+                <th class="text-right px-2 font-semibold">
+                    Lars</th>
+                <td class="px-1">0</td>
+                <td class="px-1">0</td>
+                <td class="px-1">4</td>
+                <td class="px-1">0</td>
+            </tr>
+            
+            <tr>
+                <th class="text-right px-2 font-semibold">
+                    Johan</th>
+                <td class="px-1">2</td>
+                <td class="px-1">0</td>
+                <td class="px-1">4</td>
+                <td class="px-1">0</td>
+            </tr>
+            
+            <tr>
+                <th class="text-right px-2 font-semibold">
+                    Giovanni</th>
+                <td class="px-1">2</td>
+                <td class="px-1">0</td>
+                <td class="px-1">4</td>
+                <td class="px-1">0</td>
+            </tr>
+            
+            <tr>
+                <th class="text-right px-2 font-semibold">
+                    Finnian</th>
+                <td class="px-1">2</td>
+                <td class="px-1">0</td>
+                <td class="px-1">4</td>
+                <td class="px-1">0</td>
+            </tr>
+            
+            <tr>
+                <th class="text-right px-2 font-semibold">
+                    Bram</th>
+                <td class="px-1">2</td>
+                <td class="px-1">0</td>
+                <td class="px-1">4</td>
+                <td class="px-1">0</td>
             </tr>
             
         </tbody>
     </table>
-
-</body>

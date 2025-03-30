@@ -1,3 +1,5 @@
-date,team_1,team_2,outcome,x
-2025-03-02T20:00,pablo_dobro_wouter_bram_sandero,pablo_dobro_wouter_bram_sandero,0,
-2025-03-04T20:00,,,0,pablo_dobro_wouter_bram_sandero_pablo_dobro_wouter_bram_sandero
+date,team_1,team_2,outcome,highlights_id
+2025-03-25T20:00,pablo_adam_dobro_alex_wouter,bram_johan_tchi_gio_finnian,1,67e332b42eab8abd1cb449c6
+2025-03-25T20:00,sizwe_nima_raphael_dmitro_miro,adi_sander_baris_karim_renaud,2,67e33ee0665c5bb7349201fd
+2025-03-25T20:30,pablo_adam_dobro_alex_wouter,adi_sander_baris_karim_renaud,1,67e332b42eab8abd1cb449c6
+2025-03-25T20:30,sizwe_nima_raphael_dmitro_miro,bram_johan_tchi_gio_finnian,1,67e33ee0665c5bb7349201fd
