@@ -24,9 +24,11 @@
             {% endfor %}
         </tbody>
     </table>
-    <form>
-        <p class="text-lg font-bold">Matchmaking</p>
-        <textarea class="resize-none h-75 w-50" name="matchmaking" hx-post="{{ SERVER_URL }}/debug">
+    <details>
+        <summary class="text-blue-600 hover:cursor-pointer">Start new match</summary>
+        <p>Copy-paste the match message from Whatsapp group here:</p>
+        <form>
+            <textarea class="resize-none h-75 w-120" name="matchmaking" hx-post="{{ SERVER_URL }}/debug">
             {# 
             Tuesday 18/03 @20:00
              1.⁠ ⁠Baris
@@ -41,7 +43,8 @@
             10.⁠ ⁠Tchi 
             #}
         </textarea>
-    </form>
+        </form>
+    </details>
     <br>
 
     {# Players #}
