@@ -171,7 +171,7 @@ if __name__ == "__main__":
 
     # Render html output from jinja template.
     # https://jinja.palletsprojects.com/en/stable
-    with open("build/index.html", "w") as index:
+    with open("docs/index.html", "w") as index:
         index.write(
             jinja2.Template(Path("index.html.jinja").read_text()).render(**locals())
         )
