@@ -1,0 +1,11 @@
+{
+  "action": "on-deployment",
+  "branch": "master",
+  "client_payload": {
+    "actor": "raulparada",
+    "env": "[\"staging-rapid+_core__oo_\"]"
+  },
+  "inputs": {
+    "environment": "staging-rapid"
+  }
+}

@@ -5,10 +5,6 @@
         crossorigin="anonymous"></script>
     <meta name="htmx-config" content='{"selfRequestsOnly":false}'>
     
-    <script>
-        console.log("players", "{'pablo': Player(id='pablo', alias='Pablo OG'), 'wouter': Player(id='wouter', alias='Wouter'), 'adi': Player(id='adi', alias='Adi'), 'sizwe': Player(id='sizwe', alias='Sizwe'), 'sandero': Player(id='sandero', alias='Sander'), 'bram': Player(id='bram', alias='Bram'), 'adam': Player(id='adam', alias='Adam'), 'alex': Player(id='alex', alias='Alex'), 'johan': Player(id='johan', alias='Johan'), 'finnian': Player(id='finnian', alias='Finnian'), 'dobro': Player(id='dobro', alias='Dobromil'), 'maarten': Player(id='maarten', alias='Maarten'), 'luca': Player(id='luca', alias='Luca'), 'renaud': Player(id='renaud', alias='Renaud'), 'gio': Player(id='gio', alias='Giovanni'), 'lars': Player(id='lars', alias='Lars'), 'sander': Player(id='sander', alias='Sandero'), 'victor': Player(id='victor', alias='Victor'), 'baris': Player(id='baris', alias='Baris'), 'karim': Player(id='karim', alias='Karim'), 'nima': Player(id='nima', alias='Nima'), 'raphael': Player(id='raphael', alias='Raphael'), 'dmitro': Player(id='dmitro', alias='Dmitro'), 'miro': Player(id='miro', alias='Miro'), 'tchi': Player(id='tchi', alias='Tchi')}")
-        let players = "{'pablo': Player(id='pablo', alias='Pablo OG'), 'wouter': Player(id='wouter', alias='Wouter'), 'adi': Player(id='adi', alias='Adi'), 'sizwe': Player(id='sizwe', alias='Sizwe'), 'sandero': Player(id='sandero', alias='Sander'), 'bram': Player(id='bram', alias='Bram'), 'adam': Player(id='adam', alias='Adam'), 'alex': Player(id='alex', alias='Alex'), 'johan': Player(id='johan', alias='Johan'), 'finnian': Player(id='finnian', alias='Finnian'), 'dobro': Player(id='dobro', alias='Dobromil'), 'maarten': Player(id='maarten', alias='Maarten'), 'luca': Player(id='luca', alias='Luca'), 'renaud': Player(id='renaud', alias='Renaud'), 'gio': Player(id='gio', alias='Giovanni'), 'lars': Player(id='lars', alias='Lars'), 'sander': Player(id='sander', alias='Sandero'), 'victor': Player(id='victor', alias='Victor'), 'baris': Player(id='baris', alias='Baris'), 'karim': Player(id='karim', alias='Karim'), 'nima': Player(id='nima', alias='Nima'), 'raphael': Player(id='raphael', alias='Raphael'), 'dmitro': Player(id='dmitro', alias='Dmitro'), 'miro': Player(id='miro', alias='Miro'), 'tchi': Player(id='tchi', alias='Tchi')}"
-    </script>
 </head>
 
 <body
@@ -86,7 +82,8 @@
         </tbody>
     </table>
     <details
-        class="grid grid-cols-1 content-center justify-center justify-items-center items-center group cursor-pointer">
+        class="grid grid-cols-1 content-center justify-center justify-items-center items-center group cursor-pointer"
+        id="matchmaking">
         <summary class="text-blue-500 group-open:text-black">Start new...</summary>
         <form>
             <textarea
@@ -102,8 +99,15 @@
 9.⁠ Player 9⁠
 10.⁠ Player 10"
                 class="relative resize-none h-70 w-60 border-2 border-blue-500"
-                name="matchmaking"
-                hx-post="https://github.com/raulparada/dok-noord-arena/dispatches"></textarea>
+                name="data"
+                hx-swap="delete"
+                hx-target="#matchmaking"
+                
+                hx-post="https://github.com/raulparada/dok-noord-arena/dispatches"
+                hx-headers='{"Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28"}'
+                hx-ext="dispatchjson"
+                data-event-type="matchmaking"
+                data-redirect="true"></textarea>
         </form>
     </details>
     <br>
@@ -115,11 +119,12 @@
         </p>
         <thead>
             <tr>
-                <th scope="col"></th> <!-- name -->
-                <th scope="col">⛹️‍♂️</th>
-                <th>🏅</th>
-                <th>🐸</th>
+                <th></th> <!-- name -->
+                <th>⛹️‍♂️</th>
+                <th>W</th>
+                <th>L</th>
                 <th>🏆</th>
+                <th>⭐️</th>
             </tr>
         </thead>
         <tbody>
@@ -129,7 +134,7 @@
                     Wouter</th>
                 <td class="px-1">2</td>
                 <td class="px-1">2</td>
-                <td class="px-1">2</td>
+                <td class="px-1">0</td>
                 <td class="px-1">0</td>
             </tr>
             
@@ -138,7 +143,7 @@
                     Pablo OG</th>
                 <td class="px-1">2</td>
                 <td class="px-1">2</td>
-                <td class="px-1">2</td>
+                <td class="px-1">0</td>
                 <td class="px-1">0</td>
             </tr>
             
@@ -147,7 +152,7 @@
                     Dobromil</th>
                 <td class="px-1">2</td>
                 <td class="px-1">2</td>
-                <td class="px-1">2</td>
+                <td class="px-1">0</td>
                 <td class="px-1">0</td>
             </tr>
             
@@ -156,7 +161,7 @@
                     Alex</th>
                 <td class="px-1">2</td>
                 <td class="px-1">2</td>
-                <td class="px-1">2</td>
+                <td class="px-1">0</td>
                 <td class="px-1">0</td>
             </tr>
             
@@ -165,7 +170,7 @@
                     Adam</th>
                 <td class="px-1">2</td>
                 <td class="px-1">2</td>
-                <td class="px-1">2</td>
+                <td class="px-1">0</td>
                 <td class="px-1">0</td>
             </tr>
             
@@ -174,7 +179,7 @@
                     Sizwe</th>
                 <td class="px-1">2</td>
                 <td class="px-1">1</td>
-                <td class="px-1">3</td>
+                <td class="px-1">1</td>
                 <td class="px-1">0</td>
             </tr>
             
@@ -183,7 +188,7 @@
                     Sandero</th>
                 <td class="px-1">2</td>
                 <td class="px-1">1</td>
-                <td class="px-1">3</td>
+                <td class="px-1">1</td>
                 <td class="px-1">0</td>
             </tr>
             
@@ -192,7 +197,7 @@
                     Renaud</th>
                 <td class="px-1">2</td>
                 <td class="px-1">1</td>
-                <td class="px-1">3</td>
+                <td class="px-1">1</td>
                 <td class="px-1">0</td>
             </tr>
             
@@ -201,7 +206,7 @@
                     Raphael</th>
                 <td class="px-1">2</td>
                 <td class="px-1">1</td>
-                <td class="px-1">3</td>
+                <td class="px-1">1</td>
                 <td class="px-1">0</td>
             </tr>
             
@@ -210,7 +215,7 @@
                     Nima</th>
                 <td class="px-1">2</td>
                 <td class="px-1">1</td>
-                <td class="px-1">3</td>
+                <td class="px-1">1</td>
                 <td class="px-1">0</td>
             </tr>
             
@@ -219,7 +224,7 @@
                     Miro</th>
                 <td class="px-1">2</td>
                 <td class="px-1">1</td>
-                <td class="px-1">3</td>
+                <td class="px-1">1</td>
                 <td class="px-1">0</td>
             </tr>
             
@@ -228,7 +233,7 @@
                     Karim</th>
                 <td class="px-1">2</td>
                 <td class="px-1">1</td>
-                <td class="px-1">3</td>
+                <td class="px-1">1</td>
                 <td class="px-1">0</td>
             </tr>
             
@@ -237,7 +242,7 @@
                     Dmitro</th>
                 <td class="px-1">2</td>
                 <td class="px-1">1</td>
-                <td class="px-1">3</td>
+                <td class="px-1">1</td>
                 <td class="px-1">0</td>
             </tr>
             
@@ -246,7 +251,7 @@
                     Baris</th>
                 <td class="px-1">2</td>
                 <td class="px-1">1</td>
-                <td class="px-1">3</td>
+                <td class="px-1">1</td>
                 <td class="px-1">0</td>
             </tr>
             
@@ -255,7 +260,7 @@
                     Adi</th>
                 <td class="px-1">2</td>
                 <td class="px-1">1</td>
-                <td class="px-1">3</td>
+                <td class="px-1">1</td>
                 <td class="px-1">0</td>
             </tr>
             
@@ -264,7 +269,7 @@
                     Victor</th>
                 <td class="px-1">0</td>
                 <td class="px-1">0</td>
-                <td class="px-1">4</td>
+                <td class="px-1">0</td>
                 <td class="px-1">0</td>
             </tr>
             
@@ -273,7 +278,7 @@
                     Tchi</th>
                 <td class="px-1">2</td>
                 <td class="px-1">0</td>
-                <td class="px-1">4</td>
+                <td class="px-1">2</td>
                 <td class="px-1">0</td>
             </tr>
             
@@ -282,7 +287,7 @@
                     Sander</th>
                 <td class="px-1">0</td>
                 <td class="px-1">0</td>
-                <td class="px-1">4</td>
+                <td class="px-1">0</td>
                 <td class="px-1">0</td>
             </tr>
             
@@ -291,7 +296,7 @@
                     Maarten</th>
                 <td class="px-1">0</td>
                 <td class="px-1">0</td>
-                <td class="px-1">4</td>
+                <td class="px-1">0</td>
                 <td class="px-1">0</td>
             </tr>
             
@@ -300,7 +305,7 @@
                     Luca</th>
                 <td class="px-1">0</td>
                 <td class="px-1">0</td>
-                <td class="px-1">4</td>
+                <td class="px-1">0</td>
                 <td class="px-1">0</td>
             </tr>
             
@@ -309,7 +314,7 @@
                     Lars</th>
                 <td class="px-1">0</td>
                 <td class="px-1">0</td>
-                <td class="px-1">4</td>
+                <td class="px-1">0</td>
                 <td class="px-1">0</td>
             </tr>
             
@@ -318,7 +323,7 @@
                     Johan</th>
                 <td class="px-1">2</td>
                 <td class="px-1">0</td>
-                <td class="px-1">4</td>
+                <td class="px-1">2</td>
                 <td class="px-1">0</td>
             </tr>
             
@@ -327,7 +332,7 @@
                     Giovanni</th>
                 <td class="px-1">2</td>
                 <td class="px-1">0</td>
-                <td class="px-1">4</td>
+                <td class="px-1">2</td>
                 <td class="px-1">0</td>
             </tr>
             
@@ -336,7 +341,7 @@
                     Finnian</th>
                 <td class="px-1">2</td>
                 <td class="px-1">0</td>
-                <td class="px-1">4</td>
+                <td class="px-1">2</td>
                 <td class="px-1">0</td>
             </tr>
             
@@ -345,9 +350,39 @@
                     Bram</th>
                 <td class="px-1">2</td>
                 <td class="px-1">0</td>
-                <td class="px-1">4</td>
+                <td class="px-1">2</td>
                 <td class="px-1">0</td>
             </tr>
             
         </tbody>
     </table>
+    <script>
+        // https://www.submitjson.com/blog/htmx-post-json
+        htmx.defineExtension('dispatchjson', {
+            onEvent: function (name, evt) {
+                console.log("htmx evt", evt)
+                if (name === "htmx:configRequest") {
+                    evt.detail.headers['Content-Type'] = "applicatijon/json"
+                    // evt.detail.headers['X-API-Key'] = 'os.getenv("DOKNOORD_CI_TOKEN")' // NOTE: intentionally uncommented wrongly.
+                }
+                if (name === "htmx:xhr:loadend") {
+                    if (evt.detail.elt.dataset.redirect === "true") {
+                        // Redirect to repo actions overview filtering to event type.
+                        window.location = `https://github.com/raulparada/dok-noord-arena/actions?query=event%3A${evt.detail.elt.dataset.eventType}`
+                    }
+                }
+            },
+            encodeParameters: function (xhr, parameters, elt) {
+                console.log("encode", xhr, parameters, elt)
+                xhr.overrideMimeType('text/json')
+                const body = {
+                    // https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows#repository_dispatch
+                    // https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#create-a-repository-dispatch-event
+                    client_payload: parameters,
+                    event_type: elt.dataset.eventType,
+                }
+                return (JSON.stringify(body))
+            }
+        })
+    </script>
+</body>

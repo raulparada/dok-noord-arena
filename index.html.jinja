@@ -6,10 +6,6 @@
     <meta name="htmx-config" content='{"selfRequestsOnly":false}'>
     {#
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script> #}
-    <script>
-        console.log("players", "{{ PLAYERS }}")
-        let players = "{{PLAYERS}}"
-    </script>
 </head>
 
 <body
@@ -26,8 +22,15 @@
             Matches
         </p>
         <tbody>
-            {% set color_mapping = {'black': '&#9899;', 'white': '&#9898;', 'blue': '&#128309;', 'red': '&#128308',
-            'green': '&#128994'} %}
+            {% set color_mapping =
+            {
+            'black': '&#9899;',
+            'white': '&#9898;',
+            'blue': '&#128309;',
+            'red': '&#128308',
+            'green': '&#128994'
+            }
+            %}
             {% for match in MATCHES %}
             <tr>
                 <td class="px-1 font-bold text-gray-400">{{ match.date }}</td>
@@ -46,7 +49,8 @@
         </tbody>
     </table>
     <details
-        class="grid grid-cols-1 content-center justify-center justify-items-center items-center group cursor-pointer">
+        class="grid grid-cols-1 content-center justify-center justify-items-center items-center group cursor-pointer"
+        id="matchmaking">
         <summary class="text-blue-500 group-open:text-black">Start new...</summary>
         <form>
             <textarea
@@ -62,8 +66,15 @@
 9.⁠ Player 9⁠
 10.⁠ Player 10"
                 class="relative resize-none h-70 w-60 border-2 border-blue-500"
-                name="matchmaking"
-                hx-post="{{ DISPATCH_URL }}"></textarea>
+                name="data"
+                hx-swap="delete"
+                hx-target="#matchmaking"
+                {# hx-confirm="Submit match?" #}
+                hx-post="{{ DISPATCH_URL }}"
+                hx-headers='{"Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28"}'
+                hx-ext="dispatchjson"
+                data-event-type="matchmaking"
+                data-redirect="true"></textarea>
         </form>
     </details>
     <br>
@@ -75,11 +86,12 @@
         </p>
         <thead>
             <tr>
-                <th scope="col"></th> <!-- name -->
-                <th scope="col">⛹️‍♂️</th>
-                <th>🏅</th>
-                <th>🐸</th>
+                <th></th> <!-- name -->
+                <th>⛹️‍♂️</th>
+                <th>W</th>
+                <th>L</th>
                 <th>🏆</th>
+                <th>⭐️</th>
             </tr>
         </thead>
         <tbody>
@@ -95,3 +107,33 @@
             {% endfor %}
         </tbody>
     </table>
+    <script>
+        // https://www.submitjson.com/blog/htmx-post-json
+        htmx.defineExtension('dispatchjson', {
+            onEvent: function (name, evt) {
+                console.log("htmx evt", evt)
+                if (name === "htmx:configRequest") {
+                    evt.detail.headers['Content-Type'] = "applicatijon/json"
+                    // evt.detail.headers['X-API-Key'] = 'os.getenv("DOKNOORD_CI_TOKEN")' // NOTE: intentionally uncommented wrongly.
+                }
+                if (name === "htmx:xhr:loadend") {
+                    if (evt.detail.elt.dataset.redirect === "true") {
+                        // Redirect to repo actions overview filtering to event type.
+                        window.location = `{{REPO_URL}}/actions?query=event%3A${evt.detail.elt.dataset.eventType}`
+                    }
+                }
+            },
+            encodeParameters: function (xhr, parameters, elt) {
+                console.log("encode", xhr, parameters, elt)
+                xhr.overrideMimeType('text/json')
+                const body = {
+                    // https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows#repository_dispatch
+                    // https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#create-a-repository-dispatch-event
+                    client_payload: parameters,
+                    event_type: elt.dataset.eventType,
+                }
+                return (JSON.stringify(body))
+            }
+        })
+    </script>
+</body>
