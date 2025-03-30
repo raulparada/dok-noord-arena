@@ -26,11 +26,15 @@
             Matches
         </p>
         <tbody>
+            {% set color_mapping = {'black': '&#9899;', 'white': '&#9898;', 'blue': '&#128309;', 'red': '&#128308',
+            'green': '&#128994'} %}
             {% for match in MATCHES %}
             <tr>
                 <td class="px-1 font-bold text-gray-400">{{ match.date }}</td>
                 <td class="px-1 text-right {{ 'font-bold' if match.outcome == '1' else '' }}">{{ match.team_1 }}</td>
-                <td class="px-3 text-center w-25 text-gray-500">⚫️ vs ⚪️</td>
+                <td class="px-3 text-center w-25 text-gray-500">{{color_mapping[match.team_1.color or 'black']}} vs
+                    {{color_mapping[match.team_2.color or 'white']}}️
+                </td>
                 <td class="px-1 text-left {{ 'font-bold' if match.outcome == '2' else '' }}">{{ match.team_2 }}</td>
                 {% if match.highlights_id %}
                 <td class="px-1 font-medium text-blue-600 dark:text-blue-500 hover:underline"> <a

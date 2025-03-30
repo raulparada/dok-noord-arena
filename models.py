@@ -2,6 +2,7 @@
 
 import csv
 import datetime
+import re
 from enum import StrEnum
 from pathlib import Path
 from textwrap import dedent
@@ -71,20 +72,25 @@ class Outcome(StrEnum):
 
 
 class Team(BaseModel):
-    player_ids: str
-    color: str = Field(default="white")
-
-    @property
-    def player_ids_parsed(self):
-        return split_string(self.player_ids)
+    raw_str: str
+    player_ids: list[str]
+    color: str | None
 
     @property
     def players(self):
-        return [PLAYERS[player_id] for player_id in self.player_ids_parsed]
+        return [PLAYERS[player_id] for player_id in self.player_ids]
 
     @classmethod
-    def from_ids_string(cls: Self, ids_string):
-        return cls(player_ids=ids_string)
+    def from_string(cls: Self, raw_str: str):
+        pattern = r"\[(.*?)\]"
+        match = re.search(pattern, raw_str)
+        if match:
+            color = match.group(1)
+            player_ids = raw_str.replace(match.group(), "").split(CSV_LIST_SEPARATOR)
+        else:
+            color = None
+            player_ids = raw_str.split(CSV_LIST_SEPARATOR)
+        return cls(raw_str=raw_str, player_ids=player_ids, color=color)
 
     def __contains__(self, item: Player):
         return item in self.players
@@ -95,8 +101,8 @@ class Team(BaseModel):
 
 class Match(BaseModel):
     date: datetime.datetime
-    team_1: Annotated[Team | None, BeforeValidator(Team.from_ids_string)]
-    team_2: Annotated[Team | None, BeforeValidator(Team.from_ids_string)]
+    team_1: Annotated[Team | None, BeforeValidator(Team.from_string)]
+    team_2: Annotated[Team | None, BeforeValidator(Team.from_string)]
     outcome: Outcome = Field(default=Outcome.PENDING)
     highlights_id: str | None
 
