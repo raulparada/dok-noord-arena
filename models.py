@@ -2,6 +2,7 @@
 
 import csv
 import datetime
+import os
 import re
 from enum import StrEnum
 from pathlib import Path
@@ -18,7 +19,9 @@ CSV_DELIMITER = ","
 
 MATCHES: list["Match"] = []  # list
 PLAYERS: dict[str, "Player"] = {}  # by id
-SERVER_URL = "http://localhost:7654"
+DISPATCH_URL = os.getenv(
+    "DISPATCH_URL", "https://github.com/raulparada/dok-noord-arena/dispatches"
+)
 
 
 def split_string(v):
