@@ -29,13 +29,16 @@ CSV_LIST_SEPARATOR = "_"
 DATE_FORMAT = "%Y-%m-%dT%H:%M"
 
 REPO_URL = "https://github.com/raulparada/dok-noord-arena"
-DISPATCH_URL = os.getenv("DISPATCH_URL", REPO_URL + "/dispatches")
+DISPATCH_URL = os.getenv(
+    "DISPATCH_URL", "https://api.github.com/repos/raulparada/dok-noord-arena/dispatches"
+)
 
 MATCHES: list["Match"] = []  # list
 PLAYERS: dict[str, "Player"] = {}  # by id
 
 
-class NotEnoughPlayersError(BaseException): ...
+class NotEnoughPlayersError(BaseException):
+    pass
 
 
 def team_split(players: list["Player"]):
