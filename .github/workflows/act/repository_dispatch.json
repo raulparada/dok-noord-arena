@@ -1,11 +1,8 @@
 {
-  "action": "on-deployment",
-  "branch": "master",
+  "action": "matchmaking",
+  "branch": "main",
   "client_payload": {
-    "actor": "raulparada",
-    "env": "[\"staging-rapid+_core__oo_\"]"
+    "actor": "raulparada"
   },
-  "inputs": {
-    "environment": "staging-rapid"
-  }
+  "inputs": {}
 }

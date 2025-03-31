@@ -29,7 +29,7 @@ jobs:
             - uses: actions/setup-python@v5
               with:
                   cache: "pip"
-            - run: pip install .
+            - run: pip install -e .
 
             # Dispatches.
             - if: github.event_name == 'repository_dispatch'
