@@ -47,8 +47,8 @@ jobs:
                     python main.py matchmaking .matchmaking.txt
                   fi
             # Build.
-            - if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
-              env:
+            # - if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+            - env:
                   CI_KEY: ${{ secrets.DOKNOORD_CI_PUBLIC_TOKEN }}
               run: |
                   echo "key is $CI_KEY"
