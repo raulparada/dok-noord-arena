@@ -5,6 +5,20 @@ on:
     push:
         branches:
             - main
+    workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+    # Non-default contents permission
+    contents: write
+    pages: write
+    id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+    group: "pages"
+    cancel-in-progress: false
 
 jobs:
     build:
@@ -12,8 +26,6 @@ jobs:
         steps:
             # Setup.
             - uses: actions/checkout@v4
-            #   with:
-            #       token: ${{ secrets.GITHUB_TOKEN }}
             - uses: actions/setup-python@v5
               with:
                   cache: "pip"
@@ -32,8 +44,26 @@ jobs:
             # Build.
             - if: github.event_name == 'push'
               run: |
+                  echo $GITHUB_TOKEN > docs/ci_public_token
                   python main.py build
             - uses: EndBug/add-and-commit@v9
               with:
                   default_author: github_actions
                   add: "['data', 'docs']"
+    deploy:
+        needs: build
+        environment:
+            name: github-pages
+            url: ${{ steps.deployment.outputs.page_url }}
+        runs-on: ubuntu-latest
+        steps:
+            - name: Setup Pages
+              uses: actions/configure-pages@v5
+            - name: Upload artifact
+              uses: actions/upload-pages-artifact@v3
+              with:
+                  # Upload entire repository
+                  path: "docs"
+            - name: Deploy to GitHub Pages
+              id: deployment
+              uses: actions/deploy-pages@v4
