@@ -1,6 +1,6 @@
 <head>
-    <script src="./tailwindv4.js"></script>
     <script src="./htmx2.0.4.min.js"></script>
+    <script src="./tailwindv4.js"></script>
     <meta name="htmx-config" content='{"selfRequestsOnly":false}'>
 </head>
 
@@ -46,10 +46,11 @@
         </tbody>
     </table>
     <details
-        class="grid grid-cols-1 content-center justify-center justify-items-center items-center group cursor-pointer"
+        class="grid grid-cols-1 w-60 content-center justify-center justify-items-center items-center group cursor-pointer"
         id="matchmaking">
-        <summary class="text-blue-500 group-open:text-black">Start new...</summary>
-        <form>
+        <summary class="text-blue-500 group-open:text-black">Add...</summary>
+        <small>Paste the WhatsApp matchmaking message here:</small>
+        <form class="flex items-center">
             <textarea
                 placeholder="Tuesday DD/MM @20:00
 1.⁠ Player 1
@@ -62,7 +63,7 @@
 8.⁠ Player 8⁠
 9.⁠ Player 9⁠
 10.⁠ Player 10"
-                class="relative resize-none h-70 w-60 border-2 border-blue-500"
+                class="resize-none w-full h-70 border-2 border-blue-500"
                 name="data"
                 hx-swap="delete"
                 hx-target="#matchmaking"
@@ -83,22 +84,37 @@
         <thead>
             <tr>
                 <th></th> <!-- name -->
+                <th>⭐️</th>
                 <th>⛹️‍♂️</th>
                 <th>W</th>
                 <th>L</th>
                 <th>🏆</th>
-                <th>⭐️</th>
             </tr>
         </thead>
         <tbody>
-            {% for player in PLAYERS.values()|sort(attribute='stats.wins,alias', reverse=true) %}
+            {% set match_status_mapping =
+            {
+            None: "•",
+            True: "✅",
+            False: "❌",
+            }
+            %}
+            {% for player in PLAYERS.values()|sort(attribute='stats.handicap,alias', reverse=true) %}
             <tr>
-                <th class="text-right px-2 font-semibold">
+                <th class="px-2 text-right font-semibold">
                     {{player.alias }}</th>
-                <td class="px-1">{{player.stats.played}}</td>
-                <td class="px-1">{{player.stats.wins}}</td>
-                <td class="px-1">{{player.stats.losses}}</td>
-                <td class="px-1">{{player.stats.tournament_wins}}</td>
+                <td class="px-2 text-center">{{player.stats.handicap}}</td>
+                <td class="px-2 text-center">{{player.stats.played}}</td>
+                <td class="px-2 text-center">{{player.stats.wins}}</td>
+                <td class="px-2 text-center">{{player.stats.losses}}</td>
+                <td class="px-2 text-center">{{player.stats.tournament_wins}}</td>
+                <span>
+                    {% for result in player.stats.last_five %}
+                    <td class="px-1 text-center">
+                        {{ match_status_mapping[result] }}
+                    </td>
+                    {% endfor %}
+                </span>
             </tr>
             {% endfor %}
         </tbody>

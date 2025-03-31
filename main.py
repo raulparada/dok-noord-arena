@@ -82,6 +82,8 @@ class PlayerStats(BaseModel):
     wins: int = 0
     losses: int = 0
     tournament_wins: int = 0
+    handicap: int = 0
+    last_five: list[bool | None] = Field(default_factory=list)
 
 
 class Player(BaseModel):
@@ -90,17 +92,27 @@ class Player(BaseModel):
 
     @property
     def stats(self) -> PlayerStats:
-        played = sum(self in match for match in MATCHES)
-        wins = sum(match.is_winner(self) for match in MATCHES)
-        losses = sum(match.is_loser(self) for match in MATCHES)
+        all_participated = [match for match in MATCHES if self in match]
+        all_played = [match for match in all_participated if match.is_played]
+
+        played = len(all_played)
+        wins = sum(match.is_winner(self) for match in all_played)
+        losses = sum(match.is_loser(self) for match in all_played)
         tournament_wins = sum(
-            match.is_winner(self) for match in MATCHES if match.is_tournament_mode
-        )
+            match.is_winner(self) for match in all_played if match.is_tournament_mode
+        )  # FIXME, counting-double
+        last_five = [
+            match.is_winner(self) if match and match.is_played else None
+            for match in ([None] * 5 + all_played)[-5:]
+        ]
+
         return PlayerStats(
             played=played,
             wins=wins,
             losses=losses,
             tournament_wins=tournament_wins,
+            handicap=wins - losses,
+            last_five=last_five,
         )
 
 
@@ -164,7 +176,11 @@ class Match(BaseModel):
 
     @property
     def is_playable(self):
-        return len(self.team_1) == len(self.team_2) == 5 and not self.is_played
+        return (
+            len(self.team_1) == len(self.team_2) == 5
+            and self.is_future
+            and not self.is_played
+        )
 
     @property
     def is_won(self):
@@ -191,25 +207,31 @@ class Match(BaseModel):
         return self.outcome is Outcome.CANCELLED
 
     def is_winner(self, player: Player):
-        if (
-            player in self.team_1
-            and self.outcome is Outcome.TEAM_1_WINNER
-            or player in self.team_2
-            and self.outcome is Outcome.TEAM_2_WINNER
-        ):
-            return True
+        if self.is_played:
+            return self.resolve_team(player) == int(self.outcome.value)
         return False
 
     def is_loser(self, player: Player):
-        return player in self and self.is_won and not self.is_winner(player)
+        if not self.is_played:
+            return False
+        if player not in self:
+            return False
+        return self.is_won and not self.is_winner(player)
 
     @property
     def is_tournament_mode(self):
         # TODO add support
         return False
 
-    def __contains__(self, item: Player):
-        return item in self.team_1 or item in self.team_2
+    def resolve_team(self, player: Player):
+        if player in self.team_1:
+            return 1
+        if player in self.team_2:
+            return 2
+        return 0
+
+    def __contains__(self, player: Player):
+        return player in self.team_1 or player in self.team_2
 
     def __str__(self):
         return dedent(
@@ -225,8 +247,8 @@ class Match(BaseModel):
         """Instantiate from standard matchmaking string (i.e. Whatsapp group format)"""
         text_raw = Path(file).read_text()
         text = ""
-        for filter in ("\u2060",):
-            text = text_raw.replace(filter, "")
+        for filtered in ("\u2060",):
+            text = text_raw.replace(filtered, "")
         lines = text.strip().split("\n")
         # Parse the date line (first line)
         date_line = lines[0]
@@ -286,7 +308,6 @@ def matchmaking(file: dict):
     logger.info(f"Matchmaking with file='{file}'.")
     try:
         match = Match.from_matchmaking_file(file)
-        # Add logic to save the match to CSV or process it
         logger.info(f"Created match: {match}")
         to_csv(match, "data/matches")
 
