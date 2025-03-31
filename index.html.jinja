@@ -106,7 +106,7 @@
         let CI_TOKEN
         fetch("ci_public_token")
             .then((res) => res.text())
-            .then(text => CI_TOKEN = text)
+            .then(text => CI_TOKEN = text.trim())
         // https://www.submitjson.com/blog/htmx-post-json
         htmx.defineExtension('dispatchjson', {
             onEvent: function (name, evt) {

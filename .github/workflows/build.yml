@@ -31,10 +31,7 @@ jobs:
                   fi
             # Build.
             - if: github.event_name == 'push'
-              env:
-                  DOKNOORD_CI_PUBLIC_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               run: |
-                  echo $DOKNOORD_CI_PUBLIC_TOKEN > docs/ci_public_token
                   python main.py build
             - uses: EndBug/add-and-commit@v9
               with:
