@@ -47,7 +47,7 @@ jobs:
             # Build.
             - if: github.event_name == 'push'
               env:
-                  CI_KEY: ${{ github.token }}
+                  CI_KEY: ${{ secrets.DOKNOORD_CI_PUBLIC_TOKEN }}
               run: |
                   echo "key is $CI_KEY"
                   echo "$CI_KEY" > docs/ci_public_token
