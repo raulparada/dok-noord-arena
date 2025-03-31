@@ -109,10 +109,9 @@
                 name="data"
                 hx-swap="delete"
                 hx-target="#matchmaking"
-                
-                hx-post="https://github.com/raulparada/dok-noord-arena/dispatches"
-                hx-headers='{"Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28"}'
+                hx-confirm="Submit match?"
                 hx-ext="dispatchjson"
+                hx-post="http://localhost:7654/dispatches"
                 data-event-type="matchmaking"
                 data-redirect="true"></textarea>
         </form>
@@ -378,7 +377,11 @@
             onEvent: function (name, evt) {
                 console.log("htmx evt", evt)
                 if (name === "htmx:configRequest") {
-                    evt.detail.headers['Content-Type'] = "applicatijon/json"
+                    evt.detail.headers = {
+                        'Content-Type': "application/json",
+                        "Accept": "application/vnd.github+json",
+                        "X-GitHub-Api-Version": "2022-11-28"
+                    }
                     // evt.detail.headers['X-API-Key'] = 'os.getenv("DOKNOORD_CI_TOKEN")' // NOTE: intentionally uncommented wrongly.
                 }
                 if (name === "htmx:xhr:loadend") {
