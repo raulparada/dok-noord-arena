@@ -89,6 +89,7 @@
                 <th>W</th>
                 <th>L</th>
                 <th>🏆</th>
+                <th colspan="5"><img src="./assets/heartbeat.svg" class="h-4 w-full"></th>
             </tr>
         </thead>
         <tbody>
@@ -108,13 +109,13 @@
                 <td class="px-2 text-center">{{player.stats.wins}}</td>
                 <td class="px-2 text-center">{{player.stats.losses}}</td>
                 <td class="px-2 text-center">{{player.stats.tournament_wins}}</td>
-                <span>
-                    {% for result in player.stats.last_five %}
-                    <td class="px-1 text-center">
-                        {{ match_status_mapping[result] }}
-                    </td>
-                    {% endfor %}
-                </span>
+
+                {% for result in player.stats.last_five %}
+                <td class="px-1 text-center">
+                    {{ match_status_mapping[result] }}
+                </td>
+                {% endfor %}
+
             </tr>
             {% endfor %}
         </tbody>
