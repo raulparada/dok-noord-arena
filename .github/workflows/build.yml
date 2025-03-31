@@ -13,8 +13,6 @@ permissions:
     pages: write
     id-token: write
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
     group: "pages"
     cancel-in-progress: false
@@ -32,36 +30,42 @@ jobs:
               with:
                   cache: "pip"
             - run: pip install .
+
             # Dispatches.
             - if: github.event_name == 'repository_dispatch'
               run: |
-                  echo "repository dispatch: payload: ${{ github.event.client_payload || 'no payload' }}"
-                  echo "repository dispatch: action: ${{ github.event.action || 'unknown action' }}"
+                  echo "repository dispatch: github.event.client_payload: ${{ github.event.client_payload || '' }}"
+                  echo "repository dispatch: github.event.action: ${{ github.event.action || 'unknown' }}"
 
                   if [[ "${{ github.event.action }}" == "matchmaking" ]]; then
                     echo "Handling matchmaking event"
                     echo "${{ github.event.client_payload.data }}" > .matchmaking.txt
-                    echo "file contents: $(cat .matchmaking.txt)"
+                    echo "matchmaking file contents: $(cat .matchmaking.txt)"
                     python main.py matchmaking .matchmaking.txt
                   fi
+
             # Build.
-            # - if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
             - env:
-                  CI_KEY: ${{ secrets.DOKNOORD_CI_PUBLIC_TOKEN }}
+                  CI_PUBLIC_TOKEN: ${{ secrets.DOKNOORD_CI_PUBLIC_TOKEN }}
               run: |
-                  echo "key is $CI_KEY"
-                  echo "$CI_KEY" > docs/ci_public_token
                   python main.py build
+                  echo "$CI_PUBLIC_TOKEN" > site/ci_public_token
+
+            # Deploy.
             - name: Setup Pages
               uses: actions/configure-pages@v5
             - name: Upload artifact
               uses: actions/upload-pages-artifact@v3
               with:
-                  path: "docs"
+                  path: "site"
             - name: Deploy to GitHub Pages
               id: deployment
               uses: actions/deploy-pages@v4
-            - uses: EndBug/add-and-commit@v9
+
+            # Commit data changes (from dispatches).
+            - if: github.event_name == 'workflow_dispatch'
+              uses: EndBug/add-and-commit@v9
               with:
                   default_author: github_actions
-                  add: "['data', 'docs']"
+                  add: data
+                  message: 'ci: auto-commit ${{ github.run_id }}'

@@ -36,9 +36,9 @@
                     {{color_mapping[match.team_2.color or 'white']}}️
                 </td>
                 <td class="px-1 text-left {{ 'font-bold' if match.outcome == '2' else '' }}">{{ match.team_2 }}</td>
-                {% if match.highlights_id %}
+                {% if match.recording_id %}
                 <td class="px-1 font-medium text-blue-600 dark:text-blue-500 hover:underline"> <a
-                        href="https://app.myplay.com/app/game/{{match.highlights_id}}/highlights">highlights</a></td>
+                        href="https://app.myplay.com/app/game/{{match.recording_id}}/highlights">recording</a></td>
                 </td>
                 {% endif %}
             </tr>

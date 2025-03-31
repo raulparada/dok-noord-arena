@@ -160,7 +160,7 @@ class Match(BaseModel):
         PlainSerializer(lambda team: team.to_string()),
     ]
     outcome: Outcome = Field(default=Outcome.PENDING)
-    highlights_id: str | None
+    recording_id: str | None
 
     @property
     def is_playable(self):
@@ -275,7 +275,7 @@ class Match(BaseModel):
             team_1=CSV_LIST_SEPARATOR.join(team_1_ids),
             team_2=CSV_LIST_SEPARATOR.join(team_2_ids),
             outcome=Outcome.PENDING,
-            highlights_id=None,
+            recording_id=None,
         )
         match.team_1.color = "black"
         match.team_2.color = "white"
@@ -296,16 +296,16 @@ def matchmaking(file: dict):
 
 if __name__ == "__main__":
     MATCHES = from_csv(Match, "data/matches")
-    PLAYERS = {player.id: player for player in from_csv(Player, "data/players")}
     logger.debug(f"Players {PLAYERS}.")
+    PLAYERS = {player.id: player for player in from_csv(Player, "data/players")}
     logger.debug(f"Matches {MATCHES}.")
 
     if sys.argv[1] == "build":
+        site_dir = Path("site")
+        index_template = site_dir / "index.html.jinja"
         # Render html output from jinja template.
         # https://jinja.palletsprojects.com/en/stable
-        with open("docs/index.html", "w") as index:
-            index.write(
-                jinja2.Template(Path("index.html.jinja").read_text()).render(**locals())
-            )
+        with open(site_dir / "index.html", "w") as index:
+            index.write(jinja2.Template(index_template.read_text()).render(**locals()))
     else:
         globals()[sys.argv[1]](*sys.argv[2:])
