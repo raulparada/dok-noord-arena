@@ -28,8 +28,9 @@
             }
             %}
             {% for match in MATCHES|sort(attribute='date', reverse=true) %}
-            <tr>
-                <td class="px-1 font-bold text-gray-400">{{ match.date }}</td>
+            <tr class="{{ 'bg-yellow-400' if match.is_future else '' }}">
+                <td class="px-1 font-bold text-gray-400">{{ match.date
+                    }}</td>
                 <td class="px-1 text-right {{ 'font-bold' if match.outcome == '1' else '' }}">{{ match.team_1 }}</td>
                 <td class="px-3 text-center w-25 text-gray-500">{{color_mapping[match.team_1.color or 'black']}} vs
                     {{color_mapping[match.team_2.color or 'white']}}️
@@ -102,6 +103,7 @@
             {% endfor %}
         </tbody>
     </table>
+    <footer class="absolute left-0 bottom-0 text-gray-400">Updated: {{ISO_NOW}} </footer>
     <script>
         let CI_TOKEN
         fetch("ci_public_token")
@@ -121,8 +123,8 @@
                 }
                 if (name === "htmx:xhr:loadend") {
                     if (evt.detail.elt.dataset.redirect === "true") {
-                        // Redirect to repo actions overview filtering to event type.
-                        window.location = `{{REPO_URL}}/actions?query=event%3A${evt.detail.elt.dataset.eventType}`
+                        // Redirect to repo repository_dispatch actions overview.
+                        window.location = `{{REPO_URL}}/actions?query=event%3Arepository_dispatch`
                     }
                 }
             },

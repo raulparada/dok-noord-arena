@@ -20,7 +20,7 @@
         <tbody>
             
             
-            <tr>
+            <tr class="bg-yellow-400">
                 <td class="px-1 font-bold text-gray-400">2025-04-01 20:00:00</td>
                 <td class="px-1 text-right ">Adam • Maarten • Onur • Pablo OG • Raphael</td>
                 <td class="px-3 text-center w-25 text-gray-500">&#9899; vs
@@ -30,7 +30,7 @@
                 
             </tr>
             
-            <tr>
+            <tr class="">
                 <td class="px-1 font-bold text-gray-400">2025-03-25 20:30:00</td>
                 <td class="px-1 text-right font-bold">Adam • Alex • Dobromil • Pablo OG • Wouter</td>
                 <td class="px-3 text-center w-25 text-gray-500">&#128308 vs
@@ -44,7 +44,7 @@
                 
             </tr>
             
-            <tr>
+            <tr class="">
                 <td class="px-1 font-bold text-gray-400">2025-03-25 20:30:00</td>
                 <td class="px-1 text-right font-bold">Dmitro • Miro • Nima • Raphael • Sizwe</td>
                 <td class="px-3 text-center w-25 text-gray-500">&#128994 vs
@@ -58,7 +58,7 @@
                 
             </tr>
             
-            <tr>
+            <tr class="">
                 <td class="px-1 font-bold text-gray-400">2025-03-25 20:00:00</td>
                 <td class="px-1 text-right font-bold">Adam • Alex • Dobromil • Pablo OG • Wouter</td>
                 <td class="px-3 text-center w-25 text-gray-500">&#128308 vs
@@ -72,7 +72,7 @@
                 
             </tr>
             
-            <tr>
+            <tr class="">
                 <td class="px-1 font-bold text-gray-400">2025-03-25 20:00:00</td>
                 <td class="px-1 text-right ">Dmitro • Miro • Nima • Raphael • Sizwe</td>
                 <td class="px-3 text-center w-25 text-gray-500">&#128994 vs
@@ -111,7 +111,7 @@
                 hx-target="#matchmaking"
                 hx-confirm="Submit match?"
                 hx-ext="dispatchjson"
-                hx-post="https://api.github.com/repos/raulparada/dok-noord-arena/dispatches"
+                hx-post="http://localhost:7654/dispatches"
                 data-event-type="matchmaking"
                 data-redirect="true"></textarea>
         </form>
@@ -371,6 +371,7 @@
             
         </tbody>
     </table>
+    <footer class="absolute left-0 bottom-0 text-gray-400">Updated: 2025-03-31T14:02:42 </footer>
     <script>
         let CI_TOKEN
         fetch("ci_public_token")
@@ -390,8 +391,8 @@
                 }
                 if (name === "htmx:xhr:loadend") {
                     if (evt.detail.elt.dataset.redirect === "true") {
-                        // Redirect to repo actions overview filtering to event type.
-                        window.location = `https://github.com/raulparada/dok-noord-arena/actions?query=event%3A${evt.detail.elt.dataset.eventType}`
+                        // Redirect to repo repository_dispatch actions overview.
+                        window.location = `https://github.com/raulparada/dok-noord-arena/actions?query=event%3Arepository_dispatch`
                     }
                 }
             },

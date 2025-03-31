@@ -26,7 +26,8 @@ logger = logging.getLogger(__name__)
 
 CSV_DELIMITER = ","
 CSV_LIST_SEPARATOR = "_"
-DATE_FORMAT = "%Y-%m-%dT%H:%M"
+MATCH_DATE_FORMAT = "%Y-%m-%dT%H:%M"
+ISO_NOW = datetime.datetime.now().replace(microsecond=0).isoformat()
 
 REPO_URL = "https://github.com/raulparada/dok-noord-arena"
 DISPATCH_URL = os.getenv(
@@ -145,7 +146,8 @@ class Team(BaseModel):
 
 class Match(BaseModel):
     date: Annotated[
-        datetime.datetime, PlainSerializer(lambda date: date.strftime(DATE_FORMAT))
+        datetime.datetime,
+        PlainSerializer(lambda date: date.strftime(MATCH_DATE_FORMAT)),
     ]
     team_1: Annotated[
         Team | None,
@@ -167,6 +169,10 @@ class Match(BaseModel):
     @property
     def is_won(self):
         return self.outcome in (Outcome.TEAM_1_WINNER, Outcome.TEAM_2_WINNER)
+
+    @property
+    def is_future(self):
+        return self.date > datetime.datetime.now()
 
     @property
     def is_played(self):
@@ -208,7 +214,7 @@ class Match(BaseModel):
     def __str__(self):
         return dedent(
             f"""\n
-            {self.date.strftime(DATE_FORMAT)} Dok-Noord Arena
+            {self.date.strftime(MATCH_DATE_FORMAT)} Dok-Noord Arena
             {self.team_1}
             vs
             {self.team_2}"""
