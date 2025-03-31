@@ -1,3 +1,4 @@
+name: "Build and deploy"
 on:
     workflow_dispatch:
     repository_dispatch:
@@ -42,6 +43,7 @@ jobs:
                   if [[ "${{ github.event.action }}" == "matchmaking" ]]; then
                     echo "Handling matchmaking event"
                     echo "${{ github.event.client_payload.data }}" > .matchmaking.txt
+                    echo "file contents: $(cat .matchmaking.txt)"
                     python main.py matchmaking .matchmaking.txt
                   fi
             # Build.
