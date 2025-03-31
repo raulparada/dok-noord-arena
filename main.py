@@ -139,8 +139,8 @@ class Team(BaseModel):
     def __contains__(self, item: Player):
         return item in self.players
 
-    # def __str__(self):
-    #     return " • ".join(sorted(player.alias for player in self.players))
+    def __str__(self):
+        return " • ".join(sorted(player.alias for player in self.players))
 
 
 class Match(BaseModel):

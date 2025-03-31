@@ -27,7 +27,7 @@
             'green': '&#128994'
             }
             %}
-            {% for match in MATCHES %}
+            {% for match in MATCHES|sort(attribute='date', reverse=true) %}
             <tr>
                 <td class="px-1 font-bold text-gray-400">{{ match.date }}</td>
                 <td class="px-1 text-right {{ 'font-bold' if match.outcome == '1' else '' }}">{{ match.team_1 }}</td>

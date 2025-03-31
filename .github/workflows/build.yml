@@ -10,8 +10,7 @@ on:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
-    # Non-default contents permission
-    contents: write
+    contents: read
     pages: write
     id-token: write
 
