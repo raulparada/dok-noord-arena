@@ -28,7 +28,7 @@
             'green': '&#128994'
             }
             %}
-            {% for match in MATCHES|sort(attribute='date', reverse=true) %}
+            {% for match in (MATCHES|sort(attribute='date', reverse=true))[:5] %}
             <tr class="{{ 'bg-yellow-400' if match.is_future else '' }}">
                 <td class="px-1 font-bold text-gray-400">{{ match.date
                     }}</td>
@@ -196,14 +196,10 @@
             document.querySelectorAll("[class^='chemistry-detail']").forEach(e => e.style.display = "none");
             if (e.value === "" || e.value === "all") {
                 document.querySelectorAll(`[class^='chemistry-detail'`).forEach(e => e.style.display = "table-cell");
-
-                const chemistrySelectContainer = document.querySelector("#chemistry-cells");
-                const newElement = document.createElement("td");
-                newElement.class = "chemistry-placeholder-td";
-                chemistrySelectContainer.appendChild(newElement);
+                document.querySelectorAll(".chemistry-placeholder-td").forEach(e => e.style.display = "table-cell");
             } else {
                 document.querySelectorAll(`[class^='chemistry-detail-${e.value}'`).forEach(e => e.style.display = "table-cell");
-                document.querySelectorAll(".chemistry-placeholder-td").forEach(e => e.remove());
+                document.querySelectorAll(".chemistry-placeholder-td").forEach(e => e.style.display = "none");
             }
         }
 

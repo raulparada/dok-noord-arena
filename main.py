@@ -106,11 +106,11 @@ class ChemistryStats(BaseModel):
 def color_scale(cents: int) -> str:
     if cents is None:
         return "<empty>"
-    elif cents > 80:
+    elif cents >= 80:
         return "bg-green-200"
     elif cents >= 40:
         return "bg-yellow-200"
-    elif cents > 20:
+    elif cents >= 20:
         return "bg-orange-200"
     return "bg-red-200"
 
@@ -192,7 +192,8 @@ class Team(BaseModel):
         match = re.search(pattern, raw_str)
         if match:
             color = match.group(1)
-            player_ids = raw_str.replace(match.group(), "").split(CSV_LIST_SEPARATOR)
+            raw_str = raw_str.replace(match.group(), "")
+            player_ids = raw_str.split(CSV_LIST_SEPARATOR)
         else:
             color = None
             player_ids = raw_str.split(CSV_LIST_SEPARATOR)
@@ -367,10 +368,11 @@ def matchmaking(file: dict):
         logger.error(f"Error parsing matchmaking text: {e}.")
 
 
+MATCHES = from_csv(Match, "data/matches")
+PLAYERS = {player.id: player for player in from_csv(Player, "data/players")}
+
 if __name__ == "__main__":
-    MATCHES = from_csv(Match, "data/matches")
     logger.debug(f"Players {PLAYERS}.")
-    PLAYERS = {player.id: player for player in from_csv(Player, "data/players")}
     logger.debug(f"Matches {MATCHES}.")
 
     if sys.argv[1] == "build":
