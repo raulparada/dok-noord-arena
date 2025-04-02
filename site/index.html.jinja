@@ -83,7 +83,7 @@
             Players
         </p>
         {%
-        set players_by_alias = PLAYERS.values()|sort(attribute='alias', reverse=true)
+        set players_by_alias = PLAYERS.values()|sort(attribute='alias')
         %}
         <thead>
             <tr>

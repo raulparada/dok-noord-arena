@@ -17,7 +17,7 @@ from typing_extensions import Annotated
 
 FORMAT = "%(message)s"
 logging.basicConfig(
-    level=os.environ.get("LOGLEVEL", "NOTSET"),
+    level=os.environ.get("LOGLEVEL", "INFO"),
     format=FORMAT,
     datefmt="[%X]",
     handlers=[RichHandler()],
@@ -144,7 +144,11 @@ class Player(BaseModel):
 
     @property
     def stats(self) -> PlayerStats:
-        all_participated = [match for match in MATCHES if self in match]
+        all_participated = sorted(
+            [match for match in MATCHES if self in match],
+            key=lambda m: m.date,
+            reverse=True,
+        )
         all_played = [match for match in all_participated if match.is_played]
 
         played = len(all_played)
