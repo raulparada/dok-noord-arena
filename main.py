@@ -86,9 +86,61 @@ class PlayerStats(BaseModel):
     last_five: list[bool | None] = Field(default_factory=list)
 
 
+class ChemistryStats(BaseModel):
+    id: str
+    played_both: int = 0
+    played_together: int = 0
+    wins: int = 0  # together.
+
+    @property
+    def win_ratio(self) -> None | int:
+        if not self.played_together:
+            return None
+        return round(self.wins / self.played_together * 100)
+
+    @property
+    def played_against(self):
+        return self.played_both - self.played_together
+
+
+def color_scale(cents: int) -> str:
+    if cents is None:
+        return "<empty>"
+    elif cents > 80:
+        return "bg-green-200"
+    elif cents >= 40:
+        return "bg-yellow-200"
+    elif cents > 20:
+        return "bg-orange-200"
+    return "bg-red-200"
+
+
 class Player(BaseModel):
     id: str
     alias: str
+
+    def chemistry_with(self, other: "Player") -> ChemistryStats:
+        all_both = [
+            match
+            for match in MATCHES
+            if all(player in match for player in (self, other))
+        ]
+        all_together = [
+            match
+            for match in all_both
+            if match.resolve_team(self) == match.resolve_team(other)
+        ]
+        all_won = [match for match in all_together if match.is_winner(self)]
+        played_both = len(all_both)
+        played_together = len(all_together)
+        played_won = len(all_won)
+        return ChemistryStats(
+            played_both=played_both,
+            played_together=played_together,
+            played_against=played_both - played_together,
+            wins=played_won,
+            id=f"{self.id}-{other.id}",
+        )
 
     @property
     def stats(self) -> PlayerStats:

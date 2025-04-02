@@ -6,14 +6,15 @@
 
 <body
     class="
-    grid grid-cols-1
+    grid
     content-center
     justify-center
     justify-items-center
     items-center
+    w-full
     bg-stone-100
     font-system-ui">
-    <table class="table-auto w-3/4">
+    <table class="table-auto">
         <p class="text-xl font-bold">
             Matches
         </p>
@@ -81,6 +82,9 @@
         <p class="text-xl font-bold">
             Players
         </p>
+        {%
+        set players_by_alias = PLAYERS.values()|sort(attribute='alias', reverse=true)
+        %}
         <thead>
             <tr>
                 <th></th> <!-- name -->
@@ -90,17 +94,32 @@
                 <th>L</th>
                 <th>🏆</th>
                 <th colspan="5"><img src="./assets/heartbeat.svg" class="h-4 w-full"></th>
+                <th class="w-2" id="chemistry-select-header">
+                    <select name="chemistry" id="chemistry-select" class="text-center"
+                        onchange="handleVisibility(this)">
+                        <option value="">...with</option>
+                        {% for other in players_by_alias %}
+                        <option value="{{ other.id }}">{{ other.alias }}</option>
+                        {% endfor %}
+                        <option value="all">*</option>
+                    </select>
+                </th>
+                {% for other in players_by_alias %}
+                <th class="chemistry-detail hidden">
+                    {{ other.alias }}
+                </th>
+                {% endfor %}
             </tr>
         </thead>
         <tbody>
             {% set match_status_mapping =
             {
-            None: "•",
-            True: "✅",
-            False: "❌",
+            None: " •",
+            True: "✅" ,
+            False: "❌" ,
             }
             %}
-            {% for player in PLAYERS.values()|sort(attribute='stats.handicap,alias', reverse=true) %}
+            {% for player in players_by_alias %}
             <tr>
                 <th class="px-2 text-right font-semibold">
                     {{player.alias }}</th>
@@ -114,6 +133,20 @@
                 <td class="px-1 text-center">
                     {{ match_status_mapping[result] }}
                 </td>
+                {% endfor %}
+
+                <div id="chemistry-cells">
+                    <td class="chemistry-placeholder-td px-2">
+                    </td>
+                    {% for other in players_by_alias %}
+                    {%
+                    set chemistry = player.chemistry_with(other)
+                    %}
+                    <td
+                        class="chemistry-detail-{{ other.id }}-{{ player.id }} {{color_scale(chemistry.win_ratio)}} px-7 text-center hidden">
+                        {{ chemistry.wins }} / {{ chemistry.played_together }}
+                    </td>
+                </div>
                 {% endfor %}
 
             </tr>
@@ -157,5 +190,22 @@
                 return (JSON.stringify(body))
             }
         })
+
+        const handleVisibility = (e) => {
+            console.log("event", e.value)
+            document.querySelectorAll("[class^='chemistry-detail']").forEach(e => e.style.display = "none");
+            if (e.value === "" || e.value === "all") {
+                document.querySelectorAll(`[class^='chemistry-detail'`).forEach(e => e.style.display = "table-cell");
+
+                const chemistrySelectContainer = document.querySelector("#chemistry-cells");
+                const newElement = document.createElement("td");
+                newElement.class = "chemistry-placeholder-td";
+                chemistrySelectContainer.appendChild(newElement);
+            } else {
+                document.querySelectorAll(`[class^='chemistry-detail-${e.value}'`).forEach(e => e.style.display = "table-cell");
+                document.querySelectorAll(".chemistry-placeholder-td").forEach(e => e.remove());
+            }
+        }
+
     </script>
 </body>
